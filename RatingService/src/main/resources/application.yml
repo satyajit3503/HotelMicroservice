@@ -8,7 +8,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/microservices
     username: root
-    password: Welcome@2025
+    password: 9178
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
