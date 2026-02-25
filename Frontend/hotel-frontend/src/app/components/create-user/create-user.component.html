@@ -1,0 +1,91 @@
+<div class="page-wrapper">
+
+    <!-- Back Navbar -->
+    <nav class="navbar">
+        <button class="btn-back" (click)="goBack()">
+            ← Back to Users
+        </button>
+        <div class="navbar-brand">
+            <span class="brand-icon">🏨</span>
+            <span class="brand-text">HotelMS</span>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="main">
+
+        <!-- Success Banner -->
+        <div *ngIf="success" class="success-overlay">
+            <div class="success-card">
+                <div class="success-icon">✓</div>
+                <h2>User Created!</h2>
+                <p>Redirecting you back to the dashboard…</p>
+            </div>
+        </div>
+
+        <!-- Form Card -->
+        <div class="form-card" *ngIf="!success">
+            <div class="form-header">
+                <div class="form-icon">👤</div>
+                <div>
+                    <h1 class="form-title">Create New User</h1>
+                    <p class="form-subtitle">Fill in the details to add a hotel user</p>
+                </div>
+            </div>
+
+            <!-- Error Banner -->
+            <div *ngIf="error" class="error-banner">
+                ⚠️ {{ error }}
+            </div>
+
+            <form [formGroup]="userForm" (ngSubmit)="onSubmit()" novalidate>
+
+                <!-- Name -->
+                <div class="field-group" [class.field-error]="name.invalid && name.touched">
+                    <label class="field-label" for="name">Full Name <span class="required">*</span></label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">👤</span>
+                        <input id="name" type="text" class="field-input" placeholder="e.g. John Doe"
+                            formControlName="name" />
+                    </div>
+                    <p class="field-hint" *ngIf="name.touched && name.errors?.['required']">Name is required.</p>
+                    <p class="field-hint" *ngIf="name.touched && name.errors?.['minlength']">Minimum 2 characters.</p>
+                </div>
+
+                <!-- Email -->
+                <div class="field-group" [class.field-error]="email.invalid && email.touched">
+                    <label class="field-label" for="email">Email Address <span class="required">*</span></label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">✉</span>
+                        <input id="email" type="email" class="field-input" placeholder="e.g. john@hotel.com"
+                            formControlName="email" />
+                    </div>
+                    <p class="field-hint" *ngIf="email.touched && email.errors?.['required']">Email is required.</p>
+                    <p class="field-hint" *ngIf="email.touched && email.errors?.['email']">Enter a valid email address.
+                    </p>
+                </div>
+
+                <!-- About -->
+                <div class="field-group" [class.field-error]="about.invalid && about.touched">
+                    <label class="field-label" for="about">About</label>
+                    <textarea id="about" class="field-textarea" placeholder="A short bio or description…" rows="4"
+                        formControlName="about"></textarea>
+                    <div class="char-count">{{ about.value?.length || 0 }} / 300</div>
+                    <p class="field-hint" *ngIf="about.touched && about.errors?.['maxlength']">Maximum 300 characters.
+                    </p>
+                </div>
+
+                <!-- Submit -->
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" (click)="goBack()">Cancel</button>
+                    <button type="submit" class="btn-submit" [disabled]="loading">
+                        <span *ngIf="!loading">Create User ✓</span>
+                        <span *ngIf="loading" class="spinner-inline"></span>
+                    </button>
+                </div>
+
+            </form>
+        </div>
+
+    </main>
+</div>

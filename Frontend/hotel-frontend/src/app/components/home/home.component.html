@@ -1,0 +1,80 @@
+<div class="page-wrapper">
+
+    <!-- ========== NAVBAR ========== -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <span class="brand-icon">🏨</span>
+            <span class="brand-text">HotelMS</span>
+        </div>
+        <button class="btn-create" (click)="goToCreateUser()">
+            <span class="btn-icon">＋</span> Create User
+        </button>
+    </nav>
+
+    <!-- ========== HERO ========== -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">User Management</h1>
+            <p class="hero-sub">Manage all hotel guests &amp; staff from one place</p>
+        </div>
+        <div class="hero-stat">
+            <span class="stat-number">{{ users.length }}</span>
+            <span class="stat-label">Total Users</span>
+        </div>
+    </section>
+
+    <!-- ========== MAIN CONTENT ========== -->
+    <main class="main">
+
+        <!-- Loading State -->
+        <div *ngIf="loading" class="state-panel">
+            <div class="spinner"></div>
+            <p class="state-text">Loading users…</p>
+        </div>
+
+        <!-- Error State -->
+        <div *ngIf="!loading && error" class="state-panel error-panel">
+            <span class="state-icon">⚠️</span>
+            <p class="state-text">{{ error }}</p>
+            <button class="btn-retry" (click)="loadUsers()">Try Again</button>
+        </div>
+
+        <!-- Empty State -->
+        <div *ngIf="!loading && !error && users.length === 0" class="state-panel">
+            <span class="state-icon">👤</span>
+            <p class="state-text">No users found. Create one to get started!</p>
+            <button class="btn-create-large" (click)="goToCreateUser()">＋ Create First User</button>
+        </div>
+
+        <!-- Users Grid -->
+        <div *ngIf="!loading && !error && users.length > 0" class="users-grid">
+            <div class="user-card" *ngFor="let user of users" (click)="goToViewUser(user.userId)">
+                <div class="card-glow"></div>
+                <div class="card-header">
+                    <div class="avatar" [style.background]="getAvatarColor(user.name)">
+                        {{ getInitials(user.name) }}
+                    </div>
+                    <div class="card-badge">
+                        <span class="badge-dot"></span> Active
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <h3 class="user-name">{{ user.name }}</h3>
+                    <p class="user-email">
+                        <span class="detail-icon">✉</span> {{ user.email }}
+                    </p>
+                    <p class="user-about">{{ user.about || 'No description provided.' }}</p>
+                </div>
+
+                <div class="card-footer">
+                    <span class="user-id">ID: {{ user.userId | slice:0:8 }}…</span>
+                    <button class="btn-view" (click)="goToViewUser(user.userId); $event.stopPropagation()">
+                        View →
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</div>
