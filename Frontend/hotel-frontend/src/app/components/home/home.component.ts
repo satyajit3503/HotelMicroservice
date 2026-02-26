@@ -42,6 +42,10 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/view-user', userId]);
   }
 
+  goToCreateHotel(): void {
+    this.router.navigate(['/create-hotel']);
+  }
+
   getInitials(name: string): string {
     if (!name) return '?';
     return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);

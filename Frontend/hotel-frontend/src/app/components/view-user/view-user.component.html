@@ -1,1 +1,140 @@
-<p>view-user works!</p>
+<div class="page-wrapper">
+
+    <!-- ========== NAVBAR ========== -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <span class="brand-icon">🏨</span>
+            <span class="brand-text">HotelMS</span>
+        </div>
+        <button class="btn-back" (click)="goBack()">
+            ← Back to Users
+        </button>
+    </nav>
+
+    <!-- ========== LOADING STATE ========== -->
+    <div *ngIf="loading" class="state-panel">
+        <div class="spinner"></div>
+        <p class="state-text">Loading user details…</p>
+    </div>
+
+    <!-- ========== ERROR STATE ========== -->
+    <div *ngIf="!loading && error" class="state-panel error-panel">
+        <span class="state-icon">⚠️</span>
+        <p class="state-text">{{ error }}</p>
+        <button class="btn-retry" (click)="goBack()">← Go Back</button>
+    </div>
+
+    <!-- ========== MAIN CONTENT ========== -->
+    <main class="main" *ngIf="!loading && !error && user">
+
+        <!-- Profile Header -->
+        <section class="profile-header">
+            <div class="profile-glow"></div>
+
+            <div class="profile-avatar-wrap">
+                <div class="profile-avatar" [style.background]="getAvatarColor(user.name)">
+                    {{ getInitials(user.name) }}
+                </div>
+                <div class="avatar-ring"></div>
+            </div>
+
+            <div class="profile-info">
+                <div class="profile-badge">
+                    <span class="badge-dot"></span> Active Member
+                </div>
+                <h1 class="profile-name">{{ user.name }}</h1>
+                <p class="profile-email">
+                    <span class="info-icon">✉</span> {{ user.email }}
+                </p>
+                <p class="profile-about">{{ user.about || 'No description provided.' }}</p>
+                <p class="profile-id">
+                    <span class="info-icon">🆔</span>
+                    <span class="id-value">{{ user.userId }}</span>
+                </p>
+            </div>
+
+            <!-- Summary Stats -->
+            <div class="profile-stats">
+                <div class="stat-card">
+                    <span class="stat-num">{{ user.ratings?.length || 0 }}</span>
+                    <span class="stat-lbl">Ratings Given</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-num">
+                        {{ user.ratings && user.ratings.length > 0
+                        ? (user.ratings | avgRating | number:'1.1-1')
+                        : '—' }}
+                    </span>
+                    <span class="stat-lbl">Avg Rating</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== RATINGS SECTION ========== -->
+        <section class="ratings-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="section-icon">⭐</span> Hotel Reviews
+                </h2>
+                <span class="review-count">{{ user.ratings?.length || 0 }} review(s)</span>
+            </div>
+
+            <!-- No Ratings -->
+            <div *ngIf="!user.ratings || user.ratings.length === 0" class="empty-ratings">
+                <span class="empty-icon">🏨</span>
+                <p class="empty-text">This user hasn't rated any hotels yet.</p>
+            </div>
+
+            <!-- Rating Cards Grid -->
+            <div class="ratings-grid" *ngIf="user.ratings && user.ratings.length > 0">
+                <div class="rating-card" *ngFor="let r of user.ratings">
+
+                    <!-- Hotel Header inside card -->
+                    <div class="rc-hotel-header">
+                        <div class="hotel-icon-wrap">
+                            <span class="hotel-icon">🏨</span>
+                        </div>
+                        <div class="hotel-meta">
+                            <h3 class="hotel-name">{{ r.hotel?.name || 'Unknown Hotel' }}</h3>
+                            <p class="hotel-location" *ngIf="r.hotel?.location">
+                                <span>📍</span> {{ r.hotel?.location }}
+                            </p>
+                        </div>
+                        <!-- Score Badge -->
+                        <div class="score-badge" [style.border-color]="getRatingColor(r.rating) + '55'"
+                            [style.background]="getRatingColor(r.rating) + '18'">
+                            <span class="score-num" [style.color]="getRatingColor(r.rating)">{{ r.rating }}</span>
+                            <span class="score-max">/5</span>
+                        </div>
+                    </div>
+
+                    <!-- Stars -->
+                    <div class="stars-row">
+                        <span *ngFor="let s of getStarArray(r.rating)" class="star"
+                            [class.filled]="s <= r.rating">★</span>
+                        <span class="rating-label" [style.color]="getRatingColor(r.rating)">
+                            {{ getRatingLabel(r.rating) }}
+                        </span>
+                    </div>
+
+                    <!-- Hotel About -->
+                    <p class="hotel-about" *ngIf="r.hotel?.about">{{ r.hotel?.about }}</p>
+
+                    <!-- Feedback -->
+                    <div class="feedback-block" *ngIf="r.feedback">
+                        <span class="feedback-quote">"</span>
+                        <p class="feedback-text">{{ r.feedback }}</p>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="rc-footer">
+                        <span class="rc-id">Rating ID: {{ r.ratingId | slice:0:8 }}…</span>
+                        <span class="rc-hotel-id">Hotel: {{ r.hotelId | slice:0:8 }}…</span>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+</div>

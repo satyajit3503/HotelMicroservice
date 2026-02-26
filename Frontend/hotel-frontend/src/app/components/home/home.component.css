@@ -61,6 +61,15 @@
 }
 
 /* ============================
+   NAVBAR ACTIONS
+==============================*/
+.actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+/* ============================
    CREATE USER BUTTON
 ==============================*/
 .btn-create {
@@ -91,6 +100,31 @@
 .btn-icon {
     font-size: 1.1rem;
     font-weight: 400;
+}
+
+.btn-create-hotel {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 1.3rem;
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: 10px;
+    background: rgba(139, 92, 246, 0.1);
+    color: #c4b5fd;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s, color 0.2s;
+}
+
+.btn-create-hotel:hover {
+    transform: translateY(-2px);
+    background: rgba(139, 92, 246, 0.22);
+    color: #fff;
+}
+
+.btn-create-hotel:active {
+    transform: translateY(0);
 }
 
 /* ============================

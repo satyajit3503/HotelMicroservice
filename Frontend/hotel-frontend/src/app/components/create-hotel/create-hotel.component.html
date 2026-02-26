@@ -1,0 +1,92 @@
+<div class="page-wrapper">
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <span class="brand-icon">🏨</span>
+            <span class="brand-text">HotelMS</span>
+        </div>
+        <button class="btn-back" (click)="goBack()">← Back Home</button>
+    </nav>
+
+    <main class="main">
+        <div class="form-card">
+            <div class="card-glow"></div>
+
+            <div class="card-header">
+                <div class="header-icon">🛡️</div>
+                <div>
+                    <h2 class="card-title">Register Hotel</h2>
+                    <p class="card-subtext">Add a new property to the management system</p>
+                </div>
+            </div>
+
+            <!-- Success Notification -->
+            <div *ngIf="success" class="alert alert-success">
+                <span class="alert-icon">✨</span>
+                <div class="alert-body">
+                    <strong>Victory!</strong> Hotel registered. Returning home...
+                </div>
+            </div>
+
+            <!-- Error Notification -->
+            <div *ngIf="error" class="alert alert-error">
+                <span class="alert-icon">⚠️</span>
+                <div class="alert-body">
+                    <strong>Oh no!</strong> {{ error }}
+                </div>
+            </div>
+
+            <form [formGroup]="hotelForm" (ngSubmit)="onSubmit()" *ngIf="!success" class="form-content">
+
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="name">Hotel Name</label>
+                        <div class="input-wrap">
+                            <span class="input-icon">🏨</span>
+                            <input id="name" type="text" formControlName="name" placeholder="Ex: Grand Plaza"
+                                [class.error]="hotelForm.get('name')?.invalid && hotelForm.get('name')?.touched">
+                        </div>
+                        <p *ngIf="hotelForm.get('name')?.invalid && hotelForm.get('name')?.touched" class="field-error">
+                            Hotel name is too short or missing.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="location">Location</label>
+                        <div class="input-wrap">
+                            <span class="input-icon">📍</span>
+                            <input id="location" type="text" formControlName="location" placeholder="City, Country"
+                                [class.error]="hotelForm.get('location')?.invalid && hotelForm.get('location')?.touched">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="about">About the Hotel</label>
+                        <div class="input-wrap">
+                            <span class="input-icon-top">📝</span>
+                            <textarea id="about" formControlName="about" rows="4"
+                                placeholder="Describe the amenities, history, etc..."
+                                [class.error]="hotelForm.get('about')?.invalid && hotelForm.get('about')?.touched"></textarea>
+                        </div>
+                        <p *ngIf="hotelForm.get('about')?.invalid && hotelForm.get('about')?.touched"
+                            class="field-error">
+                            Tell us a bit more (min 10 characters).
+                        </p>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" [disabled]="hotelForm.invalid || loading" class="btn-submit">
+                        <span *ngIf="!loading">Register Property →</span>
+                        <div *ngIf="loading" class="mini-spinner"></div>
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </main>
+</div>

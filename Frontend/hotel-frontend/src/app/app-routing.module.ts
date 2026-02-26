@@ -3,11 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { CreateUserComponent } from './components/create-user/create-user.component';
 import { ViewUserComponent } from './components/view-user/view-user.component';
+import { CreateHotelComponent } from './components/create-hotel/create-hotel.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'create-user', component: CreateUserComponent },
   { path: 'view-user/:id', component: ViewUserComponent },
+  { path: 'create-hotel', component: CreateHotelComponent },
   { path: '**', redirectTo: '' }
 ];
 

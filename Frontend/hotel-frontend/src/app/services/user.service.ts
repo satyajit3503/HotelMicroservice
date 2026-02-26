@@ -2,12 +2,20 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+export interface Hotel {
+  id: string;
+  name: string;
+  location: string;
+  about: string;
+}
+
 export interface Rating {
   ratingId: string;
   userId: string;
   hotelId: string;
   rating: number;
   feedback: string;
+  hotel?: Hotel;
 }
 
 export interface User {
